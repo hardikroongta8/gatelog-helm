@@ -10,8 +10,5 @@ data:
   WEBSOCKET_CONNECTION_PATH: http://localhost:4000/ws
 kind: ConfigMap
 metadata:
-  creationTimestamp: "2025-06-12T07:45:14Z"
   name: gatelog-config
   namespace: default
-  resourceVersion: "21658"
-  uid: 233fc048-e732-4bc4-a3f9-18bf9aecba66
