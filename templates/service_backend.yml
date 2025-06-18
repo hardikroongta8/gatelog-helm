@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "gatelog.fullname" . }}
+spec:
+  type: {{ .Values.service.type }}
+  selector:
+    app: gatelog
+  ports:
+  - port: {{ .Values.service.port }}
+    targetPort: {{ .Values.container.port }}
+    nodePort: 30080

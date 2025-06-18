@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata: # metadata of the deployment
+  name: {{ include "gatelog.fullname" . }}
+spec:
+  replicas: {{.Values.replicaCount}}
+  selector:
+    matchLabels:
+      app: gatelog
+  template:
+    metadata: # metadata of the pods
+      labels:
+        app: gatelog
+    spec:
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          ports:
+            - containerPort: {{ .Values.container.port }}
+          envFrom:
+            - configMapRef:
+                name: gatelog-config
+          env:
+            - name: DATABASE_URI
+              value: "mongodb://{{ .Release.Name }}-mongodb:27017/gatelog-db"

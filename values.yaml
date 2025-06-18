@@ -1,0 +1,31 @@
+replicaCount: 2
+
+image:
+  repository: hardikroongta8/gatelog
+  pullPolicy: IfNotPresent
+  tag: "latest"
+
+statefulSet:
+  repository: mongo
+  tag: "6.0"
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  type: LoadBalancer
+  port: 80
+
+container:
+  port: 4000
+
+storage:
+  size: 1Gi
+  accessMode: ReadWriteOnce
+
+# Additional volumeMounts on the output Deployment definition.
+volumeMounts:
+  - name: mongodb-storage
+    mountPath: "/data/db"
+
+nodeSelector: {}
