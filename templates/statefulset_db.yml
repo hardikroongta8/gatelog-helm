@@ -23,7 +23,7 @@ spec:
             mountPath: {{ (index .Values.volumeMounts 0).mountPath }}
   volumeClaimTemplates:
   - metadata:
-      name: gatelog-data
+      name: {{ (index .Values.volumeMounts 0).name }}
     spec:
       accessModes: [{{ .Values.storage.accessMode }}]
       resources:
