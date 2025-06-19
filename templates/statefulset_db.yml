@@ -1,26 +1,19 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: {{ .Release.Name }}-mongodb
+  name: {{ .Chart.Name }}-mongodb
 spec:
-  serviceName: {{ .Release.Name }}-mongodb
+  serviceName: {{ .Chart.Name }}-mongodb
   replicas: 1
   selector:
     matchLabels:
-      app: {{ .Release.Name }}-mongodb
+      app: {{ .Chart.Name }}-mongodb
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}-mongodb
+        app: {{ .Chart.Name }}-mongodb
     spec:
-      containers:
-      - name: {{ .Release.Name }}-mongodb
-        image: "{{ .Values.statefulSet.repository }}:{{ .Values.statefulSet.tag }}"
-        ports:
-        - containerPort: 27017
-        volumeMounts:
-          - name: {{ (index .Values.volumeMounts 0).name }}
-            mountPath: {{ (index .Values.volumeMounts 0).mountPath }}
+      {{- include "gatelog.dbPodSpec" . | nindent 6 }}
   volumeClaimTemplates:
   - metadata:
       name: {{ (index .Values.volumeMounts 0).name }}

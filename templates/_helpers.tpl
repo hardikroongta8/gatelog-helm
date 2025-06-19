@@ -1,16 +1,9 @@
-{{/*
-Expand the name of the chart.
-*/}}
-{{- define "gatelog.name" -}}
+{{- define "gatelog.name" }}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
-{{/*
-Create a default fully qualified app name.
-We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
-If release name contains chart name it will be used as a full name.
-*/}}
-{{- define "gatelog.fullname" -}}
+
+{{- define "gatelog.fullname" }}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,14 +19,14 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "gatelog.chart" -}}
+{{- define "gatelog.chart" }}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "gatelog.labels" -}}
+{{- define "gatelog.labels" }}
 helm.sh/chart: {{ include "gatelog.chart" . }}
 {{ include "gatelog.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
@@ -45,18 +38,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "gatelog.selectorLabels" -}}
+{{- define "gatelog.selectorLabels" }}
 app.kubernetes.io/name: {{ include "gatelog.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-{{- end }}
-
-{{/*
-Create the name of the service account to use
-*/}}
-{{- define "gatelog.serviceAccountName" -}}
-{{- if .Values.serviceAccount.create }}
-{{- default (include "gatelog.fullname" .) .Values.serviceAccount.name }}
-{{- else }}
-{{- default "default" .Values.serviceAccount.name }}
-{{- end }}
 {{- end }}

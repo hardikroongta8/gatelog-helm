@@ -1,12 +1,13 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Release.Name }}-mongodb
+  name: {{ .Chart.Name }}-mongodb
   labels:
-    app: mongodb
+    app: {{ .Chart.Name }}-mongodb
 spec:
   clusterIP: None
   selector:
-    app: mongodb
+    app: {{ .Chart.Name }}-mongodb
   ports:
-  - port: 27017
+    - port: 27017
+      targetPort: 27017  

@@ -16,6 +16,8 @@ service:
   type: LoadBalancer
   port: 80
 
+podLabels: {}
+
 container:
   port: 4000
 
@@ -23,9 +25,6 @@ storage:
   size: 1Gi
   accessMode: ReadWriteOnce
 
-# Additional volumeMounts on the output Deployment definition.
 volumeMounts:
   - name: mongodb-storage
     mountPath: "/data/db"
-
-nodeSelector: {}

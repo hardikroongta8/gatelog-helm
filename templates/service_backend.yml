@@ -5,8 +5,7 @@ metadata:
 spec:
   type: {{ .Values.service.type }}
   selector:
-    app: gatelog
+    {{- include "gatelog.selectorLabels" . | nindent 4 }}
   ports:
   - port: {{ .Values.service.port }}
     targetPort: {{ .Values.container.port }}
-    nodePort: 30080

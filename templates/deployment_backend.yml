@@ -1,25 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
-metadata: # metadata of the deployment
+metadata:
   name: {{ include "gatelog.fullname" . }}
 spec:
   replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
-      app: gatelog
+      {{- include "gatelog.selectorLabels" . | nindent 6 }}
   template:
-    metadata: # metadata of the pods
+    metadata:
       labels:
-        app: gatelog
+        {{- include "gatelog.labels" . | nindent 8 }}
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
     spec:
-      containers:
-        - name: {{ .Chart.Name }}
-          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
-          ports:
-            - containerPort: {{ .Values.container.port }}
-          envFrom:
-            - configMapRef:
-                name: gatelog-config
-          env:
-            - name: DATABASE_URI
-              value: "mongodb://{{ .Release.Name }}-mongodb:27017/gatelog-db"
+      {{- include "gatelog.serverPodSpec" . | nindent 6 }}
